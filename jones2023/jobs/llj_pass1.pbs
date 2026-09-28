@@ -1,0 +1,23 @@
+#!/bin/bash -l
+#PBS -N LLJ_Pass1
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -l walltime=03:00:00
+#PBS -j oe
+#PBS -k oed
+
+set -uo pipefail
+
+WORK=/glade/work/jackscheffel
+SCRATCH=/glade/derecho/scratch/jackscheffel
+
+source $WORK/venv/bin/activate
+cd $HOME/papers/jones2023
+mkdir -p $SCRATCH/llj_nights
+
+date
+for i in $(seq 0 15); do
+  echo "python pass1.py --shard $i --of 16 --out $SCRATCH/llj_nights"
+done | xargs -P 16 -I {} bash -c '{}'
+date

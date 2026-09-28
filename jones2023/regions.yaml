@@ -1,0 +1,79 @@
+# Jones et al. (2023) Fig. 1 subregions along the eastern Andes, digitized
+# from the figure with WebPlotDigitizer.
+#
+# Vertices are [longitude, latitude] in degrees east / north, so negative
+# throughout this domain. Rings are open -- the loader closes them.
+#
+# Regions run south (1) to north (5). The type rules reference them by
+# number: Central is 1/2/12/23/123, Northern is 4/5/45/34/345,
+# Andes is 12345/1234/234/2345, and Peru is 3 alone.
+#
+# Shared boundaries are SNAPPED: each pair of digitized vertices that should
+# have been the same point was replaced by its midpoint, and that value is
+# written identically into both neighbouring regions. Original digitized
+# values and the gaps they left are recorded at the bottom.
+
+regions:
+  1:
+    name: "northern Argentina / Paraguay"
+    vertices:
+      - [-65.5322, -29.7317]
+      - [-65.5117, -23.5610]    # shared with 2
+      - [-58.5616, -23.5300]    # shared with 2
+      - [-58.6325, -29.8013]
+
+  2:
+    name: "Bolivia"
+    vertices:
+      - [-65.5117, -23.5610]    # shared with 1
+      - [-58.5616, -23.5300]    # shared with 1
+      - [-58.5843, -15.3529]
+      - [-60.6770, -13.1549]    # shared with 3
+      - [-70.6273, -13.2494]    # shared with 3
+      - [-65.4918, -17.5910]
+
+  3:
+    name: "eastern Peru"
+    vertices:
+      - [-70.6273, -13.2494]    # shared with 2
+      - [-60.6770, -13.1549]    # shared with 2
+      - [-72.1420, -2.6709]
+      - [-71.6392, -1.8158]     # shared with 4
+      - [-78.1893, -1.8450]     # shared with 4
+      - [-80.0502, -5.1142]
+
+  4:
+    name: "northern Peru / Colombia"
+    vertices:
+      - [-78.1893, -1.8450]     # shared with 3
+      - [-72.7081, 7.5106]      # shared with 5
+      - [-65.5578, 7.5926]      # shared with 5
+      - [-71.6392, -1.8158]     # shared with 3
+
+  5:
+    name: "Venezuela"
+    vertices:
+      - [-72.7081, 7.5106]      # shared with 4
+      - [-69.9918, 12.3889]
+      - [-62.3924, 12.2221]
+      - [-65.5578, 7.5926]      # shared with 4
+
+# ---------------------------------------------------------------------------
+# Snapping record: digitized pair -> midpoint used above, and the gap closed.
+#
+# 1 top / 2 bottom
+#   (-65.5118, -23.6112) + (-65.5115, -23.5109) -> (-65.5117, -23.5610)  0.100
+#   (-58.5117, -23.5800) + (-58.6114, -23.4801) -> (-58.5616, -23.5300)  0.141
+# 2 top / 3 bottom
+#   (-60.6773, -13.2552) + (-60.6766, -13.0545) -> (-60.6770, -13.1549)  0.201
+#   (-70.4775, -13.2989) + (-70.7771, -13.1999) -> (-70.6273, -13.2494)  0.315
+# 3 top / 4 bottom
+#   (-71.8393,  -1.8668) + (-71.4390,  -1.7647) -> (-71.6392,  -1.8158)  0.413
+#   (-78.2394,  -1.8954) + (-78.1391,  -1.7946) -> (-78.1893,  -1.8450)  0.142
+# 4 top / 5 bottom
+#   (-72.8086,   7.3596) + (-72.6076,   7.6615) -> (-72.7081,   7.5106)  0.363
+#   (-65.7085,   7.3913) + (-65.4071,   7.7939) -> (-65.5578,   7.5926)  0.503
+#
+# Largest gap closed was ~0.5 deg (two gridpoints at 0.25 deg), on the
+# 4/5 boundary. If the type frequencies come out wrong, that boundary is
+# the first one to re-digitize.

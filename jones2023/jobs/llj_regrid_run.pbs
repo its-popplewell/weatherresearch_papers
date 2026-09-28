@@ -1,0 +1,30 @@
+#!/bin/bash -l
+
+#PBS -N llj_regrid_run
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -l walltime=03:00:00
+#PBS -j oe
+#PBS -k oed
+
+set -uo pipefail
+
+OUT=$SCRATCH/llj_nights_n80
+
+source $WORK/venv/bin/activate
+cd $HOME/papers/jones2023
+
+echo "NCPUS=${NCPUS:-unset}     host = $(hostname)"
+python -c 'import xarray, scipy; print("xarray", xarray.__version__)'
+python -c "from grids import domain_grid; print(domain_grid()[0].size, "x", domain_grid()[1].size)"
+
+mkdir -p $OUT
+date
+
+for i in $(seq 0 15); do
+    echo "python pass1.py --regrid n80 --shard $i --of 16 --out $OUT"
+done | xargs -P 16 -I {} bash -c '{}'
+
+date
+echo "written: $(ls $OUT/*.nc 2>/dev/null | wc -l) of 6504"

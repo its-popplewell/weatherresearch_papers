@@ -1,0 +1,18 @@
+#!/bin/bash -l
+#PBS -N RDAvLocal_ComparisonTest
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=2:mem=64GB
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -k oed
+
+set -euo pipefail        # die on the first failure, not silently
+
+# rm $HOME/RDAvLocal_ComparisonTest*
+
+source $WORK/venv/bin/activate
+cd $HOME/papers/jones2023
+
+python vimdf.py --start 1990-06-01 --end 1990-06-02 --bbox 20 35 60 75 --out $SCRATCH/cmp_rda --timing
+python vimdf.py --source local --start 1990-06-01 --end 1990-06-02 --bbox 20 35 60 75 --out $SCRATCH/cmp_local --timing

@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N era5extract
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -o /glade/derecho/scratch/jackscheffel/logs/
+
+cd /glade/u/home/jackscheffel
+julia -p 16 extract_era5.jl 1990-06-01 1990-07-03

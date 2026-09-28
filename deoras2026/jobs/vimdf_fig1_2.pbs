@@ -1,0 +1,22 @@
+#!/bin/bash -l
+#PBS -N VIMDF_Fig1
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -k oed
+
+set -euo pipefail        # die on the first failure, not silently
+
+source $WORK/venv/bin/activate
+cd $HOME/papers/deoras2026
+
+mkdir -p $SCRATCH/fig1
+
+for year in $(seq 1940 2023); do
+  for md in 05-13 06-13 07-13; do
+    end=$(date -d "${year}-${md} +5 days" +%Y-%m-%d)
+    echo "python vimdf.py --start ${year}-${md} --end ${end} --bbox 0 50 20 100 --out $SCRATCH/fig1"
+  done
+done | xargs -P 16 -I {} bash -c '{}'

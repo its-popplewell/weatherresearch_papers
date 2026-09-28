@@ -1,0 +1,29 @@
+#!/bin/bash -l
+#PBS -N VIMDF_Fig1_1955_1959
+#PBS -q casper
+#PBS -A UMAD0003
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -k oed
+
+set -uo pipefail
+
+WORK=/glade/work/jackscheffel
+SCRATCH=/glade/derecho/scratch/jackscheffel
+
+source $WORK/venv/bin/activate
+cd $HOME/papers/deoras2026
+mkdir -p $SCRATCH/fig1_att2
+
+echo "=== VIMDF_Fig1_1955_1959: years 1955-1959 ==="
+date
+
+for year in $(seq 1955 1959); do
+  echo "python vimdf.py --start ${year}-05-13 --end ${year}-05-18 --bbox 0 50 20 100 --out $SCRATCH/fig1_att2 --timing"
+  echo "python vimdf.py --start ${year}-06-13 --end ${year}-06-18 --bbox 0 50 20 100 --out $SCRATCH/fig1_att2 --timing"
+  echo "python vimdf.py --start ${year}-07-13 --end ${year}-07-18 --bbox 0 50 20 100 --out $SCRATCH/fig1_att2 --timing"
+done | xargs -P 16 -I {} bash -c '{}'
+
+date
+echo "=== VIMDF_Fig1_1955_1959 done ==="
